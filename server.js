@@ -112,6 +112,11 @@ app.delete('/eliminarEmpleado/:id', async(req,res)=>{
     res.json('Eliminado con exito')
 })
 ///////////////Endpoints:GET/////////////////listas
+app.get('/', async (req, res) => {
+    res.json({
+        users: await LoginController.findAll()
+    });
+});
 app.get('/productos', async (req, res) => {
     res.json({
         producto: await ProductoController.findAll()

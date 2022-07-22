@@ -39,6 +39,13 @@ class UserController {
       });
     });
     }
+    async findAll() {
+      try {
+          return await User.find().lean();
+      } catch (error) {
+          throw error;
+      }
+  }
      
 };
 module.exports = new UserController();
