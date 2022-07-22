@@ -114,7 +114,7 @@ app.delete('/eliminarEmpleado/:id', async(req,res)=>{
 ///////////////Endpoints:GET/////////////////listas
 app.get('/', async (req, res) => {
     res.json({
-        users: await LoginController.findAll()
+        users: await UserController.findAll()
     });
 });
 app.get('/productos', async (req, res) => {
