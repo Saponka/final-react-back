@@ -7,9 +7,9 @@ class LoginController {
 
      async findOne(req,res) {
 
-        await User.findOne({ email: req.body.email })
-        .then((user) => {
-         bcryptjs.compare(req.body.password, user.password)
+        await User.findOne({ email: req.body.email })//busco en la coleccion user
+        .then((user) => {//user es  el result de la primera promesa
+         bcryptjs.compare(req.body.password, user.password) //=> passwordCheck
           .then((passwordCheck) => {
             // if passwords match
             if(!passwordCheck) {  

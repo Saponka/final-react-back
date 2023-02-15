@@ -31,13 +31,14 @@ app.post('/login',async (req,res)=>{
 })
 //////////Endpoints:Crear///////Endpoints:update///////////
 app.post('/crearProducto', async (req, res) => {
-    const {codigo,nombre,marca,stock,precio}= req.body;
+    const {codigo,nombre,marca,stock,precio} = req.body;
+    //primero lo busco por id, si lo encuentra lo actualiza
     try{
          const producto = await ProductoController.findByCodigo(codigo);
          if(producto){
          await ProductoController.update(producto._id,{codigo,nombre,marca,stock,precio});
          res.status(200).json('Producto editado y guardado');
-    }else{
+    }else{//si no hay match de id, lo crea
          await ProductoController.create(req.body);
          res.status(200).json('Producto Creado y guardado en DB');
     }
