@@ -7,7 +7,7 @@ const URL_DEPLOY = process.env.DB_DEPLOY;
     useNewUrlParser: true, 
     useUnifiedTopology: true,
 }); */
-const connection = mongoose.connect(URl_DEPLOY,{
+const connection = mongoose.connect(URL_DEPLOY,{
     useNewUrlParser: true, 
     useUnifiedTopology: true,
 });
