@@ -26,7 +26,7 @@ app.post('/registro', async (req,res)=>{
     await UserController.create(req,res);
 })
 ////////////login//////////////
-app.get('/login',async (req,res)=>{
+app.post('/login',async (req,res)=>{
     await LoginController.findOne(req,res);
 })
 //////////Endpoints:Crear///////Endpoints:update///////////
