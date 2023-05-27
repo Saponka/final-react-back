@@ -13,6 +13,7 @@ const ProductoController = require('./controllers/productos');
 const ProveedorController = require('./controllers/proveedores');
 const EmpleadoController = require ('./controllers/empleados');
 const ClienteController = require('./controllers/clientes');
+const AlumnoController = require('./controllers/alumnos');
 //////express////////
 
 const app = express();
@@ -24,11 +25,39 @@ app.use(cors()); //{origin:'http://localhost:3000'}
 /////////register con passwordhash///////////
 app.post('/registro', async (req,res)=>{
     await UserController.create(req,res);
-})
+});
 ////////////login//////////////
 app.post('/login',async (req,res)=>{
     await LoginController.findOne(req,res);
-})
+});
+///// //////////// ///////alumnos ////////// /////////// ///////////
+app.get('/alumnos', async (req, res) => {
+    res.json({
+        alumno: await AlumnoController.findAll()
+    });
+}); 
+app.post('/crearAlumno', async (req, res) => {
+    const {dni,nombre,apellido,cuit,direccion,telefono,curso,año,promedio,descripcion} = req.body;
+    console.log(req.body);
+    try{
+        const alumno = await ClienteController.findByDni(dni);
+        if(alumno){
+            await AlumnoController.update(alumno._id,{dni,nombre,apellido,cuit,direccion,telefono,curso,año,promedio,descripcion});
+            res.status(200).json('Alumno editado y guardado');
+        }else{
+            await AlumnoController.create(req.body);
+            res.json('Alumno Creado y guardado en DB');
+        }
+    }catch(error){
+        res.status(400).json(error)
+    }  
+});
+app.delete('/eliminarAlumno/:id', async(req,res)=>{
+    const {id} = req.params;
+    await AlumnoController.delete(id);
+    res.json('Eliminado con exito');
+});
+///// //// //// Provedores /// ///// ///// ///// //
 //////////Endpoints:Crear///////Endpoints:update///////////
 app.post('/crearProducto', async (req, res) => {
     const {codigo,nombre,marca,stock,precio} = req.body;
@@ -88,30 +117,32 @@ app.post('/crearCliente', async (req, res) => {
             res.json('Cliente Creado y guardado en DB');
         }
     }catch(error){
-        res.status(400).json(error)
+        res.status(400).json(error);
     }  
 });
+
 /////////////Endpoints:delete/////////////
 app.delete('/eliminar/:id', async(req,res)=>{
     const {id} = req.params;
     await ProductoController.delete(id);
-    res.json('Eliminado con exito')
+    res.json('Eliminado con exito');
 });
 app.delete('/eliminarProveedor/:id', async(req,res)=>{
     const {id} = req.params;
     await ProveedorController.delete(id);
-    res.json('Eliminado con exito')
+    res.json('Eliminado con exito');
 })
 app.delete('/eliminarCliente/:id', async(req,res)=>{
     const {id} = req.params;
     await ClienteController.delete(id);
-    res.json('Eliminado con exito')
+    res.json('Eliminado con exito');
 })
 app.delete('/eliminarEmpleado/:id', async(req,res)=>{
     const {id} = req.params;
     await EmpleadoController.delete(id);
-    res.json('Eliminado con exito')
+    res.json('Eliminado con exito');
 })
+
 ///////////////Endpoints:GET/////////////////listas
 app.get('/', async (req, res) => {
     res.json({
