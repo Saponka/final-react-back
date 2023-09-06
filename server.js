@@ -20,7 +20,7 @@ const app = express();
 //////middalwares/////
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cors()); //{origin:'http://localhost:3000'}
+app.use(cors({origin:'http://localhost:3000'})); //{origin:'http://localhost:3000'}
 
 /////////register con passwordhash///////////
 app.post('/registro', async (req,res)=>{
@@ -40,7 +40,7 @@ app.post('/crearAlumno', async (req, res) => {
     const {dni,nombre,apellido,cuit,direccion,telefono,curso,año,promedio,descripcion} = req.body;
     console.log(req.body);
     try{
-        const alumno = await ClienteController.findByDni(dni);
+        const alumno = await AlumnoController.findByDni(dni);
         if(alumno){
             await AlumnoController.update(alumno._id,{dni,nombre,apellido,cuit,direccion,telefono,curso,año,promedio,descripcion});
             res.status(200).json('Alumno editado y guardado');
